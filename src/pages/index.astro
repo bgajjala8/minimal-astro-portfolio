@@ -82,58 +82,6 @@ const featuredProjects = projects.filter((project: CollectionEntry<"projects">) 
       </ContentList>
     </Section>
 
-    <section class="section">
-      <div class="section-header">
-        <h2>{site.sections.projects.title}</h2>
-        <a href="/projects">{site.sections.projects.viewAllText}</a>
-      </div>
-      <ContentList>
-        {
-          featuredProjects.map((project) => (
-            <article>
-              <div class="title-row">
-                <a href={project.data.url} target="_blank" rel="noopener noreferrer">
-                  {project.data.title}
-                </a>
-              </div>
-              <p class="muted-text">{project.data.description}</p>
-              {project.data.techs && (
-                <div class="tags">
-                  {project.data.techs.map((tech) => (
-                    <span>{tech}</span>
-                  ))}
-                </div>
-              )}
-            </article>
-          ))
-        }
-      </ContentList>
-    </section>
-
-    <section class="section">
-      <div class="section-header">
-        <h2>{site.sections.experience.title}</h2>
-        <a href="/experience">{site.sections.experience.viewAllText}</a>
-      </div>
-      <div class="content-list">
-        {
-          sortedExperiences.slice(0, 2).map((exp) => (
-            <article>
-              <div class="title-row">
-                <div class="company-info">
-                  <img src={exp.data.logo} alt="" class="company-logo" />
-                  <span>{exp.data.title}</span>
-                </div>
-                <time>
-                  {formatDate(exp.data.startDate)} - {exp.data.current ? "Present" : formatDate(exp.data.endDate)}
-                </time>
-              </div>
-              <p class="muted-text">{exp.data.description}</p>
-            </article>
-          ))
-        }
-      </div>
-    </section>
   </Container>
 </BaseLayout>
 

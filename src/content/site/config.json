@@ -1,8 +1,8 @@
 {
   "home": {
-    "name": "ByteKai",
-    "title": "Software Engineer & Curious Tinkerer",
-    "introduction": "I’m constantly learning and evolving. I love diving into new ideas and finding creative ways to solve problems.",
+    "name": "Bharath Gajjala",
+    "title": "Software Engineer at HashiCorp",
+    "introduction": "I'm software engineer passionate about distributed systems and impactful enterprise solutions, and I write on engineering/system design.",
     "sections": {
       "blog": {
         "title": "Writing",
@@ -20,11 +20,11 @@
     "socialLinks": [
       {
         "platform": "GitHub",
-        "url": "https://github.com/bytekai"
+        "url": "https://github.com/bgajjala8"
       },
       {
-        "platform": "Twitter",
-        "url": "https://x.com/byteekai"
+        "platform": "LinkedIn",
+        "url": "https://www.linkedin.com/in/bharath-g8"
       }
     ]
   }
