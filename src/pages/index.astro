@@ -6,6 +6,26 @@ import BaseLayout from "../components/layout/BaseLayout.astro";
 import ContentList from "../components/shared/ContentList.astro";
 import Container from "../components/ui/Container.astro";
 
+// --- START OF ADDITIONS/CHANGES ---
+
+// Access the base URL from astro.config.mjs (via Vite's import.meta.env)
+const BASE_URL = import.meta.env.BASE_URL;
+
+// Helper function to safely prepend the base URL to internal paths.
+// This handles cases where BASE_URL might be '/' or '/subpath/'
+// and ensures paths are correctly formed without double slashes.
+function prependBase(path: string): string {
+    if (BASE_URL === '/') {
+        return path; // No base path needed if it's root
+    }
+    // new URL(path, BASE_URL) correctly handles leading/trailing slashes.
+    // .pathname extracts just the path part.
+    return new URL(path, BASE_URL).pathname;
+}
+
+// --- END OF ADDITIONS/CHANGES ---
+
+
 const siteConfig = await getEntry("site", "home");
 if (!siteConfig) {
   throw new Error("Site configuration not found");
@@ -50,6 +70,7 @@ const featuredProjects = projects.filter((project: CollectionEntry<"projects">) 
       {
         site.socialLinks && (
           <div class="social-links">
+            {/* Social links are usually absolute URLs, so they don't need prependBase */}
             {site.socialLinks.map(({ platform, url }) => (
               <a href={url} target="_blank" rel="noopener noreferrer">
                 {platform}
@@ -63,112 +84,12 @@ const featuredProjects = projects.filter((project: CollectionEntry<"projects">) 
     <Section>
       <div class="section-header">
         <h2>{site.sections.blog.title}</h2>
-        <a href="/blog">{site.sections.blog.viewAllText}</a>
+        {/* FIX: Prepend BASE_URL to internal link */}
+        <a href={prependBase("/blog")}>{site.sections.blog.viewAllText}</a>
       </div>
       <ContentList>
         {
           latestPosts.map((post) => (
             <article>
               <div class="title-row">
-                <a href={`/blog/${post.id}`}>{post.data.title}</a>
-                {post.data.publishedAt && (
-                  <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
-                )}
-              </div>
-              <p class="muted-text">{post.data.description}</p>
-            </article>
-          ))
-        }
-      </ContentList>
-    </Section>
-
-  </Container>
-</BaseLayout>
-
-<style>
-  main {
-    width: 100%;
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 2rem 0;
-  }
-
-  .hero {
-    padding: 4rem 0;
-  }
-
-  .introduction {
-    margin: 1.5rem 0;
-    opacity: 0.9;
-  }
-
-  .section {
-    margin: 4rem 0;
-  }
-
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 2rem;
-    opacity: 0.7;
-  }
-
-  .title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    font-size: var(--text-sm);
-  }
-
-  .company-info {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .company-logo {
-    width: 1.5rem;
-    height: 1.5rem;
-    object-fit: contain;
-  }
-
-  time {
-    font-size: var(--text-xs);
-    opacity: 0.5;
-    white-space: nowrap;
-  }
-
-  .tags {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
-  }
-
-  .tags span {
-    font-size: var(--text-xs);
-    opacity: 0.5;
-  }
-
-  .social-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    opacity: 0.7;
-  }
-
-  @media (max-width: 640px) {
-    main {
-      padding: 1rem 0;
-    }
-
-    .hero {
-      padding: 3rem 0;
-    }
-
-    .container {
-      padding: 0 1rem;
-    }
-  }
-</style>
+                {/* FIX: Prepend BASE
