@@ -6,15 +6,6 @@ import BaseLayout from "../components/layout/BaseLayout.astro";
 import ContentList from "../components/shared/ContentList.astro";
 import Container from "../components/ui/Container.astro";
 
-const BASE_URL = import.meta.env.BASE_URL;
-
-function prependBase(path: string): string {
-    if (BASE_URL === '/') {
-        return path;
-    }
-    return new URL(path, BASE_URL).pathname;
-}
-
 const siteConfig = await getEntry("site", "home");
 if (!siteConfig) {
   throw new Error("Site configuration not found");
@@ -72,14 +63,14 @@ const featuredProjects = projects.filter((project: CollectionEntry<"projects">) 
     <Section>
       <div class="section-header">
         <h2>{site.sections.blog.title}</h2>
-        <a href={prependBase("/blog")}>{site.sections.blog.viewAllText}</a>
+        <a href="/blog">{site.sections.blog.viewAllText}</a>
       </div>
       <ContentList>
         {
           latestPosts.map((post) => (
             <article>
               <div class="title-row">
-                <a href={prependBase(`/blog/${post.id}`)}>{post.data.title}</a>
+                <a href={`/blog/${post.id}`}>{post.data.title}</a>
                 {post.data.publishedAt && (
                   <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
                 )}
@@ -134,37 +125,3 @@ const featuredProjects = projects.filter((project: CollectionEntry<"projects">) 
   .company-info {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-  }
-
-  .company-logo {
-    width: 1.5rem;
-    height: 1.5rem;
-    object-fit: contain;
-  }
-
-  time {
-    font-size: var(--text-xs);
-    opacity: 0.5;
-    white-space: nowrap;
-  }
-
-  .tags {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
-  }
-
-  .tags span {
-    font-size: var(--text-xs);
-    opacity: 0.5;
-  }
-
-  .social-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    opacity: 0.7;
-  }
-
-  @media (
