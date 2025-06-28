@@ -1,9 +1,11 @@
-// src/content/config.ts
 import { defineCollection, z } from "astro:content";
-// No need to import 'glob' or 'file' from "astro/loaders" for standard collections
+import { glob, file } from "astro/loaders";
 
 const blog = defineCollection({
-    // Astro automatically looks for content in src/content/blog/
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/blog"
+    }),
     schema: z.object({
         title: z.string(),
         description: z.string(),
@@ -13,10 +15,13 @@ const blog = defineCollection({
 });
 
 const experience = defineCollection({
-    // Astro automatically looks for content in src/content/experience/
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/experience"
+    }),
     schema: z.object({
         title: z.string(),
-        logo: z.string(), // Assuming this is a path to an image for content/experience/*.md
+        logo: z.string(),
         description: z.string(),
         startDate: z.coerce.date(),
         endDate: z.coerce.date().optional(),
@@ -25,7 +30,10 @@ const experience = defineCollection({
 });
 
 const projects = defineCollection({
-    // Astro automatically looks for content in src/content/projects/
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/projects"
+    }),
     schema: z.object({
         title: z.string(),
         description: z.string(),
@@ -36,12 +44,7 @@ const projects = defineCollection({
 });
 
 const site = defineCollection({
-    // This 'site' collection uses a 'data' loader, which is fine for JSON/YAML files not Markdown/MDX
-    // It's technically a 'data' collection (type: 'data')
-    // If you're using a single JSON file for config, this is the correct pattern.
-    // If you intend for it to be Markdown, you'd remove loader and use type: 'content'
-    type: 'data', // Explicitly define type as 'data' for file loader
-    loader: 'src/content/site/config.json', // The correct way to specify a single data file
+    loader: file("./src/content/site/config.json"),
     schema: z.object({
         name: z.string(),
         title: z.string(),
@@ -68,7 +71,10 @@ const site = defineCollection({
 });
 
 const notes = defineCollection({
-    // Astro automatically looks for content in src/content/notes/
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/notes"
+    }),
     schema: z.object({
         title: z.string(),
         description: z.string(),
@@ -79,7 +85,10 @@ const notes = defineCollection({
 });
 
 const bookmarks = defineCollection({
-    // Astro automatically looks for content in src/content/bookmarks/
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/bookmarks"
+    }),
     schema: z.object({
         title: z.string(),
         type: z.enum(["article", "book", "video"]),
