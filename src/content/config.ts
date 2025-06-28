@@ -1,7 +1,11 @@
 import { defineCollection, z } from "astro:content";
-// No need to import 'glob' or 'file' from "astro/loaders" for standard content collections
+import { glob, file } from "astro/loaders";
 
 const blog = defineCollection({
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/blog"
+    }),
     schema: z.object({
         title: z.string(),
         description: z.string(),
@@ -11,10 +15,13 @@ const blog = defineCollection({
 });
 
 const experience = defineCollection({
-    // Assuming your experience entries are Markdown/MDX files
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/experience"
+    }),
     schema: z.object({
         title: z.string(),
-        logo: z.string(), // e.g., a path like "/logos/company-x.svg"
+        logo: z.string(),
         description: z.string(),
         startDate: z.coerce.date(),
         endDate: z.coerce.date().optional(),
@@ -23,20 +30,21 @@ const experience = defineCollection({
 });
 
 const projects = defineCollection({
-    // Assuming your project entries are Markdown/MDX files
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/projects"
+    }),
     schema: z.object({
         title: z.string(),
         description: z.string(),
-        url: z.string().url(), // This URL will be in your content file (e.g., "/my-project")
+        url: z.string().url(),
         featured: z.boolean().optional().default(false),
         techs: z.array(z.string()).optional(),
     })
 });
 
 const site = defineCollection({
-    // This is a 'data' collection for your JSON configuration file
-    type: 'data',
-    loader: './src/content/site/config.json', // Path to your config.json file
+    loader: file("./src/content/site/config.json"),
     schema: z.object({
         name: z.string(),
         title: z.string(),
@@ -63,6 +71,10 @@ const site = defineCollection({
 });
 
 const notes = defineCollection({
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/notes"
+    }),
     schema: z.object({
         title: z.string(),
         description: z.string(),
@@ -73,11 +85,15 @@ const notes = defineCollection({
 });
 
 const bookmarks = defineCollection({
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/bookmarks"
+    }),
     schema: z.object({
         title: z.string(),
         type: z.enum(["article", "book", "video"]),
         author: z.string(),
-        url: z.string().url(), // This URL will be in your content file
+        url: z.string().url(),
         publishedAt: z.coerce.date(),
         createdAt: z.coerce.date(),
         description: z.string().optional(),
