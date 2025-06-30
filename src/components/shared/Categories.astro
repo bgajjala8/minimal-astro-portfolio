@@ -10,11 +10,11 @@ const { categories, currentPath, plural, basePath } = Astro.props;
 ---
 
 <div class="categories">
-  <a href={`/${basePath}`} class:list={["category-link", { active: currentPath === `/${basePath}` }]}> All </a>
+  <a href={`/minimal-astro-portfolio/${basePath}`} class:list={["category-link", { active: currentPath === `/minimal-astro-portfolio/${basePath}` }]}> All </a>
   {
     categories.map((category) => (
       <a
-        href={`/${basePath}/${category}`}
+        href={`/minimal-astro-portfolio/${basePath}/${category}`}
         class:list={["category-link", { active: currentPath === `/minimal-astro-portfolio/${basePath}/${category}` }]}
       >
         {category + (plural ? "s" : "")}
